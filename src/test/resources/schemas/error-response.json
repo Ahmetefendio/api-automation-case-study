@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "PopularCoupons error response",
+  "type": "object",
+  "required": ["sc", "d", "el"],
+  "properties": {
+    "sc": { "type": "integer" },
+    "d": { "type": "null" },
+    "el": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["c", "m"],
+        "properties": {
+          "c": { "type": "integer" },
+          "m": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "ml": { "type": "null" }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "PopularCoupons success response",
+  "type": "object",
+  "required": ["sc", "d", "el", "ml"],
+  "properties": {
+    "sc": { "type": "integer", "enum": [200] },
+    "d": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/coupon" }
+    },
+    "el": { "type": "null" },
+    "ml": { "type": "null" }
+  },
+  "definitions": {
+    "dateTime": { "type": "string", "format": "date-time" },
+    "epochString": { "type": "string", "pattern": "^[0-9]+$" },
+    "coupon": {
+      "type": "object",
+      "required": [
+        "couponId", "couponHash", "events", "eventCount", "count", "count1H", "count24H",
+        "countLast1H", "countLast24H", "orderIndex", "multiply", "totalOdd", "isWon",
+        "isIncludeUvEvent", "sharing", "playedDate", "lastPlayedDate", "creationDate",
+        "minEventDate", "resultDate", "minEventDateEpoch", "playedDateEpoch"
+      ],
+      "properties": {
+        "couponId": { "type": "string", "minLength": 1 },
+        "couponHash": { "type": "string", "pattern": "^[a-f0-9]{32}$" },
+        "events": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/event" }
+        },
+        "eventCount": { "type": "integer", "minimum": 1 },
+        "count": { "type": "integer", "minimum": 0 },
+        "count1H": { "type": "integer", "minimum": 0 },
+        "count24H": { "type": "integer", "minimum": 0 },
+        "countLast1H": { "type": "integer", "minimum": 0 },
+        "countLast24H": { "type": "integer", "minimum": 0 },
+        "orderIndex": { "type": "integer", "minimum": 1 },
+        "multiply": { "type": "integer" },
+        "totalOdd": { "type": "string", "pattern": "^[0-9.]+,[0-9]{2}$" },
+        "isWon": { "type": "boolean" },
+        "isIncludeUvEvent": { "type": "boolean" },
+        "sharing": {
+          "oneOf": [
+            { "type": "null" },
+            { "$ref": "#/definitions/sharing" }
+          ]
+        },
+        "playedDate": { "$ref": "#/definitions/dateTime" },
+        "lastPlayedDate": { "$ref": "#/definitions/dateTime" },
+        "creationDate": { "$ref": "#/definitions/dateTime" },
+        "minEventDate": { "$ref": "#/definitions/dateTime" },
+        "resultDate": { "type": "string" },
+        "minEventDateEpoch": { "$ref": "#/definitions/epochString" },
+        "playedDateEpoch": { "$ref": "#/definitions/epochString" }
+      }
+    },
+    "sharing": {
+      "type": "object",
+      "required": ["username", "encryptedMemberId", "feedId", "sharingDate"],
+      "properties": {
+        "username": { "type": "string" },
+        "profileImageUri": { "type": ["string", "null"] },
+        "cupLevel": { "type": "integer" },
+        "encryptedMemberId": { "type": "string" },
+        "feedId": { "type": "string" },
+        "sharingDate": { "$ref": "#/definitions/dateTime" },
+        "sharingDateEpoch": { "type": "integer" }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": [
+        "betradarId", "bid", "code", "name", "type", "sportId", "minOdd", "maxOdd",
+        "startDateEpoch", "marketId", "marketName", "marketNo", "marketStatus",
+        "isActive", "isLive", "outcomes"
+      ],
+      "properties": {
+        "betradarId": { "type": "integer" },
+        "bid": { "type": "integer" },
+        "code": { "type": "string", "pattern": "^[0-9]+$" },
+        "name": { "type": "string", "minLength": 1 },
+        "nameWithoutHandicap": { "type": "string" },
+        "groupName": { "type": ["string", "null"] },
+        "type": { "type": "string", "minLength": 1 },
+        "sportId": { "type": "integer", "minimum": 1 },
+        "minOdd": { "type": "number", "minimum": 1 },
+        "maxOdd": { "type": "number", "minimum": 1 },
+        "startDate": { "type": "string" },
+        "startTime": { "type": "string" },
+        "startDateEpoch": { "type": "integer" },
+        "marketSellEndDateEpoch": { "type": "integer" },
+        "marketId": { "type": "integer" },
+        "marketName": { "type": "string" },
+        "marketNo": { "type": "string" },
+        "marketStatus": { "type": "integer" },
+        "matchStatus": { "type": "integer" },
+        "specialOddsValue": { "type": "number" },
+        "isActive": { "type": "boolean" },
+        "isLive": { "type": "boolean" },
+        "isBank": { "type": "boolean" },
+        "isMarketSpecial": { "type": "boolean" },
+        "broadcast": { "type": ["object", "null"] },
+        "statisticsUrl": { "type": "string" },
+        "navLink": { "type": "string" },
+        "outcomes": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/definitions/outcome" }
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "required": ["id", "name", "mbs", "odd", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "mbs": { "type": "string", "pattern": "^[0-9]+$" },
+        "nsnMarketTypeId": { "type": "integer" },
+        "odd": { "type": "string", "pattern": "^[0-9.]+,[0-9]{2}$" },
+        "status": { "type": "string" },
+        "handicap": { "type": ["string", "number", "null"] },
+        "isActive": { "type": "boolean" },
+        "isLive": { "type": "boolean" }
+      }
+    }
+  }
+}
